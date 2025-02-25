@@ -144,6 +144,20 @@ resource "azurerm_network_security_rule" "http_rule" {
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
+resource "azurerm_network_security_rule" "db_mongodb_rule" {
+    resource_group_name = "tech501"
+  name                        = "Allow-MongoDB"
+  priority                    = 101
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "27017"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = azurerm_network_security_group.nsg.name
+}
+
 resource "azurerm_network_interface_security_group_association" "nsg-association" {
   network_interface_id      = azurerm_network_interface.app-NIC.id
   network_security_group_id = azurerm_network_security_group.nsg.id
@@ -163,11 +177,11 @@ resource "azurerm_linux_virtual_machine" "tech501-yahya-terraform-app-vm" {
   location              = data.azurerm_resource_group.rg.location
   resource_group_name   = data.azurerm_resource_group.rg.name
   size                  = "Standard_B1s"
-  admin_username        = "adminuser"
+  admin_username        = "azureuser"
   network_interface_ids = [azurerm_network_interface.app-NIC.id]
 
   admin_ssh_key {
-    username   = "adminuser"
+    username   = "azureuser"
     public_key = file("/Users/yahmoham1/.sshkey/tech501-yahya-az-key.pub")
   }
 
@@ -213,8 +227,8 @@ sudo systemctl reload nginx
 export DB_HOST=mongodb://${azurerm_network_interface.db-Nic.private_ip_address}:27017/posts
 
 # Install application dependencies and seed the database
-cd test-app
-npm install
+cd /test-app
+sudo npm install
 
 # Start the application with PM2
 pm2 start app.js

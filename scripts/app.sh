@@ -27,8 +27,8 @@ sudo systemctl reload nginx
 export DB_HOST=mongodb://<db_private_ip>:27017/posts
 
 # Install application dependencies and seed the database
-cd test-app
-npm install
+cd /test-app
+sudo npm install
 
 # Start the application with PM2
 pm2 start app.js
