@@ -86,15 +86,7 @@ resource "azurerm_linux_virtual_machine" "tech501-yahya-terraform-db-vm" {
     storage_account_type = "Standard_LRS"
   }
 
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
-    version   = "latest"
-  }
-
-  # This line encodes your user data script in Base64
-    custom_data = filebase64("./scripts/db.sh")
+    source_image_id = var.db_source_image_id
 
   tags = {
     owner = "yahya"
@@ -175,7 +167,7 @@ resource "azurerm_network_security_rule" "http_rule" {
   network_security_group_name = azurerm_network_security_group.app-nsg.name
 }
 
-resource "azurerm_network_interface_security_group_association" "app-nsg-association" {
+resource "azurerm_network_interface_security_group_association" "nsg-association" {
   network_interface_id      = azurerm_network_interface.app-NIC.id
   network_security_group_id = azurerm_network_security_group.app-nsg.id
 }
@@ -241,7 +233,7 @@ sudo sed -i 's|try_files.*|proxy_pass http://127.0.0.1:3000;|' /etc/nginx/sites-
 sudo systemctl reload nginx
 
 # Set up database connection
-export DB_HOST="mongodb://${azurerm_linux_virtual_machine.tech501-yahya-terraform-db-vm.private_ip_address}:27017/posts"
+ export DB_HOST=mongodb://${azurerm_network_interface.db-Nic.private_ip_address}:27017/posts
 
 # Install application dependencies and seed the database
 cd test-app

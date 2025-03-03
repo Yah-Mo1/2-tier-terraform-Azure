@@ -11,10 +11,6 @@ variable "vnet-name" {
 
 }
 
-variable "app_source_image_id" {
-  description = "The ID of the VM Image"
-
-}
 
 variable "db_source_image_id" {
   description = "The ID of the VM Image"
