@@ -19,7 +19,7 @@ This setup ensures that the **DB VM remains private**, only accessible by the **
 - I deployed a **private Linux VM** to host a MongoDB database.
 - This VM is placed inside a **private subnet**, meaning it has **no public IP** and cannot be accessed from the internet.
 - The **private IP is dynamically assigned** and referenced in the **App VM** environment variables.
-- The VM uses a **custom image** (`tech501-ramon-sparta-app-ready-to-run-db`) to ensure MongoDB is pre-installed.
+- The VM uses a **custom image** to ensure MongoDB is pre-installed.
 
 ### **2️⃣ Application Virtual Machine (App VM)**
 
