@@ -78,7 +78,7 @@ resource "azurerm_linux_virtual_machine" "tech501-yahya-terraform-db-vm" {
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("/Users/yahmoham1/.sshkey/tech501-yahya-az-key.pub")
+    public_key = file("~/.sshkey/tech501-yahya-az-key.pub")
   }
 
   os_disk {
@@ -191,7 +191,7 @@ resource "azurerm_linux_virtual_machine" "tech501-yahya-terraform-app-vm" {
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("/Users/yahmoham1/.sshkey/tech501-yahya-az-key.pub")
+    public_key = file("~/.sshkey/tech501-yahya-az-key.pub")
   }
 
   os_disk {
